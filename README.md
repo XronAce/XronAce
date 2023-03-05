@@ -1,4 +1,4 @@
-- 👋 Hi, I’m @XronAce
+- 👋 Hi
 - 👀 I’m interested in programming and learning many languages!
 - 🌱 I’m currently learning python, C, C++, and Github :D
 - 💞️ I’m looking to collaborate on anything if you need me.
