@@ -1,7 +1,6 @@
 - 👋 Hi
-- 👀 I’m interested in programming and learning many languages!
-- 🌱 I’m currently learning python, C, C++, and Github :D
-- 💞️ I’m looking to collaborate on anything if you need me.
+- 👀 I’m interested in web development with skills of Server Back-End with Java Springboot Framework & Front-End with React, wrapped up with Jenkins CI/CD via Docker.
+- 🌱 I’m currently learning python, Java, C, C++, and Github :D
 - 📫 Contact me via email: xronace@gmail.com
 
 <!---
