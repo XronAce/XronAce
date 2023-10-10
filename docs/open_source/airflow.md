@@ -99,3 +99,40 @@
 ## Airflow 웹페이지 접속 방법
 1. 기본 구성된 서버의 주소에 포트를 8080을 붙혀 접속하면 된다.
 2. 초기 ID와 비밀번호는 `airflow` 이다.
+
+## 예시 DAG
+```python
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime
+
+# Define default arguments
+default_args = {
+    'owner': 'your_name',
+    'start_date': datetime(2023, 10, 10),
+    'retries': 1,
+}
+
+# Create the DAG instance
+dag = DAG(
+    dag_id='my_simple_dag',
+    default_args=default_args,
+    schedule_interval=None,  # You can specify a schedule interval here (e.g., '0 0 * * *' for daily).
+)
+
+# Define the Python function to be executed as a task
+def my_python_function():
+    print("Hello, Airflow!")
+
+# Create a PythonOperator task
+my_task = PythonOperator(
+    task_id='my_task',
+    python_callable=my_python_function,
+    dag=dag,
+)
+
+# Optional: Define task dependencies (e.g., if you have multiple tasks)
+# Example: my_task2 = ...
+# my_task.set_downstream(my_task2)
+
+```
