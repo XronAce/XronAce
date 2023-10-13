@@ -128,62 +128,62 @@ etc. Topic 정보 조회
 
 ### 구현 순서
 0. 모든 서버에 필수 요소 설치 및 준비
-  - Kafka cli binary source를 [다운로드](https://kafka.apache.org/downloads) 받기
-    - 유의사항: binary 파일이 아닌 src 파일의 경우 classpath가 없어 빌드가 필요함. scala 2.13 버전의 binary 파일을 내려받는 것을 추천.
-    - 폐쇄망 서버의 경우 wget을 통한 다운로드가 안되므로, ftp 등을 통해 kafka 실행 파일을 전송할 수 있도록 할 것.
-  - Kafka 구동에 필요한 Java Development Kit 설치(JRE도 가능)
-  - Kafka 버전과 Java 버전이 호환되도록 구현
+      - Kafka cli binary source를 [다운로드](https://kafka.apache.org/downloads) 받기
+        - 유의사항: binary 파일이 아닌 src 파일의 경우 classpath가 없어 빌드가 필요함. scala 2.13 버전의 binary 파일을 내려받는 것을 추천.
+        - 폐쇄망 서버의 경우 wget을 통한 다운로드가 안되므로, ftp 등을 통해 kafka 실행 파일을 전송할 수 있도록 할 것.
+      - Kafka 구동에 필요한 Java Development Kit 설치(JRE도 가능)
+      - Kafka 버전과 Java 버전이 호환되도록 구현
 
 1. (Device 0) Zookeeper 서버 구동
-```bash
-cd <kafka src 압축해제 경로> # kafka 소스파일이 압축해제된 경로로 이동
-mkdir ~/logs/ # nohup 사용에 따른 로깅 파일을 저장할 디렉토리 생성
-nohup ./bin/zookeeper-server-start.sh ../config/zookeeper.properties > ~/logs/zookeeper.log 2>&1 & # nohup 사용을 통해 현 터미널 종료 필요 없이 백그라운드로 프로세스 구현.
-```
-- nohup 사용을 하여 백그라운드로 프로세스를 구동하고, 터미널 종료시에도 kafka 작동이 가능토록 함.
+    ```bash
+    cd <kafka src 압축해제 경로> # kafka 소스파일이 압축해제된 경로로 이동
+    mkdir ~/logs/ # nohup 사용에 따른 로깅 파일을 저장할 디렉토리 생성
+    nohup ./bin/zookeeper-server-start.sh ../config/zookeeper.properties > ~/logs/zookeeper.log 2>&1 & # nohup 사용을 통해 현 터미널 종료 필요 없이 백그라운드로 프로세스 구현.
+    ```
+    - nohup 사용을 하여 백그라운드로 프로세스를 구동하고, 터미널 종료시에도 kafka 작동이 가능토록 함.
 
 2. (Device 0) Kafka broker 0 구동 전 server.properties 수정
-- `broker.id`: id 값을 0으로 지정 (default: 0)
-- `listeners`: 외부 device에서 접근이 가능할 수 있도록, ip를 명시해야 함.
-  - `listeners=PLAINTEXT://<Device 0 IP>:9092`
-- `zookeeper.connect`: 주소 값을 `localhost:9092`로 하여 Device 0의 zookeeper에 연결되도록 구현
+    - `broker.id`: id 값을 0으로 지정 (default: 0)
+    - `listeners`: 외부 device에서 접근이 가능할 수 있도록, ip를 명시해야 함.
+      - `listeners=PLAINTEXT://<Device 0 IP>:9092`
+    - `zookeeper.connect`: 주소 값을 `localhost:9092`로 하여 Device 0의 zookeeper에 연결되도록 구현
 
 3. (Device 0) Kafka broker 0 구동
-```bash
-cd <kafka src 압축해제 경로>
-nohup ./bin/kafka-server-start.sh ../config/server.properties > ~/logs/broker0.log 2>&1 &
-```
+    ```bash
+    cd <kafka src 압축해제 경로>
+    nohup ./bin/kafka-server-start.sh ../config/server.properties > ~/logs/broker0.log 2>&1 &
+    ```
 
 4. (Device 1) Kafka broker 1 구동 전 server.properties 수정
-- `broker.id`: id 값을 1로 지정 (default: 0)
-- `listeners`: 외부 device에서 접근이 가능할 수 있도록, ip를 명시해야 함.
-  - `listeners=PLAINTEXT://<Device 1 IP>:9092`
-- `zookeeper.connect`: 주소 값을 device 0의 zookeeper server에 연결하기 위하여 `<Device 0 IP>:2181`로 입력
+    - `broker.id`: id 값을 1로 지정 (default: 0)
+    - `listeners`: 외부 device에서 접근이 가능할 수 있도록, ip를 명시해야 함.
+      - `listeners=PLAINTEXT://<Device 1 IP>:9092`
+    - `zookeeper.connect`: 주소 값을 device 0의 zookeeper server에 연결하기 위하여 `<Device 0 IP>:2181`로 입력
 
 5. (Device 1) Kafka broker 1 구동
-```bash
-cd <kafka src 압축해제 경로>
-nohup ./bin/kafka-server-start.sh ../config/server.properties > ~/logs/broker1.log 2>&1 &
-```
+    ```bash
+    cd <kafka src 압축해제 경로>
+    nohup ./bin/kafka-server-start.sh ../config/server.properties > ~/logs/broker1.log 2>&1 &
+    ```
 
 6. (Device 0 or Device 1) Kafka topic 생성
-- partitions: 1
-- reflection-factor: 1
-```bash
-cd <kafka src 압축해제 경로>
-./bin/kafka-topics.sh --create --topic test_topic --partitions 1 --reflection-factor 1 --bootstrap-server <Device 0 or Device 1 IP>:9092
-```
+    - partitions: 1
+    - reflection-factor: 1
+    ```bash
+    cd <kafka src 압축해제 경로>
+    ./bin/kafka-topics.sh --create --topic test_topic --partitions 1 --reflection-factor 1 --bootstrap-server <Device 0 or Device 1 IP>:9092
+    ```
 
 7. (Device 2): Kafka producer 구동
-```bash
-cd <kafka src 압축해제 경로>
-./bin/kafka-console-producer.sh --topic test_topic --bootstrap-server <Device 0 or Device 1 IP>:9092
-```
+    ```bash
+    cd <kafka src 압축해제 경로>
+    ./bin/kafka-console-producer.sh --topic test_topic --bootstrap-server <Device 0 or Device 1 IP>:9092
+    ```
 
 8. (Device 0 or Device 1) Kafka consumer 구동
-```bash
-cd <kafka src 압축해제 경로>
-./bin/kafka-console.consumer.sh --topic test_topic --bootstrap-server <Device 0 or Device 1 IP>:9092 --from-beginning
-```
+    ```bash
+    cd <kafka src 압축해제 경로>
+    ./bin/kafka-console.consumer.sh --topic test_topic --bootstrap-server <Device 0 or Device 1 IP>:9092 --from-beginning
+    ```
 
 9. 7번에 구현했던 Kafka producer로 메세지 전송 시 8번의 consumer 출력값 확인
