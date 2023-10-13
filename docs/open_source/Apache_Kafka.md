@@ -21,47 +21,47 @@ tar -xzf kafka-3.6.0-src.tgz
 
 ## 입문: CLI 기반 Kafka 사용법
 0. 실행 쉘 스크립트들이 위치한 bin 디렉토리로 이동
-```bash
-cd kafka-3.6.0-src.tgz # kafka 압축 해제 디렉토리 이동
-cd bin # 실행파일 저장 디렉토리 이동
-```
+    ```bash
+    cd kafka-3.6.0-src.tgz # kafka 압축 해제 디렉토리 이동
+    cd bin # 실행파일 저장 디렉토리 이동
+    ```
 
 1. Zookeeper 실행(새 bash shell에서)
-```bash
-./zookeeper-server-start.sh ../config/zookeeper.properties # zookeeper 설정 파일을 바탕으로 zookeeper서버 실행
-```
+    ```bash
+    ./zookeeper-server-start.sh ../config/zookeeper.properties # zookeeper 설정 파일을 바탕으로 zookeeper서버 실행
+    ```
 
 2. Kafka 서버 실행(새 bash shell에서)
-```bash
-./kafka-server-start.sh ../config/server.properties # kafka 설정 파일을 바팡으로 kafka서버 실행
-```
+    ```bash
+    ./kafka-server-start.sh ../config/server.properties # kafka 설정 파일을 바팡으로 kafka서버 실행
+    ```
 
 3. Kafka topic 생성(새 bash shell에서)
-```bash
-./kafka-topics.sh --create --topic test_topic --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092
-```
+    ```bash
+    ./kafka-topics.sh --create --topic test_topic --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092
+    ```
 
 4. 생성한 topic을 기반으로 Producer 실행
-```bash
-./kafka-console-producer.sh --topic test_topic --bootstrap-server localhost:9092
-```
-  이후 하단에 나오는 입력창에서 타이핑을 진행할 시 cache에 저장됨.  
+    ```bash
+    ./kafka-console-producer.sh --topic test_topic --bootstrap-server localhost:9092
+    ```
+      이후 하단에 나오는 입력창에서 타이핑을 진행할 시 cache에 저장됨.  
 
 5. 생성한 topic을 기반으로 Consumer 실행(새 bash shell에서)
-```bash
-./kafka-console-consumer.sh --topic test_topic --from-beginning --bootstrap-server localhost:9092
-```
-  이후 여태까지 입력해 두었던, 이벤트 메세지들이 처음부터 출력되며 실시간 Producer-Consumer 통로가 생성됨.  
+    ```bash
+    ./kafka-console-consumer.sh --topic test_topic --from-beginning --bootstrap-server localhost:9092
+    ```
+      이후 여태까지 입력해 두었던, 이벤트 메세지들이 처음부터 출력되며 실시간 Producer-Consumer 통로가 생성됨.  
 
 6. Topic 삭제 방법
-```bash
-./kafka-topics.sh --delete --topic test_topic --bootstrap-server localhost:9092
-```
+    ```bash
+    ./kafka-topics.sh --delete --topic test_topic --bootstrap-server localhost:9092
+    ```
 
 etc. Topic 정보 조회
-```bash
-./kafka-topics.sh --describe --topic test_topic --bootstrap-server localhost:9092
-```
+    ```bash
+    ./kafka-topics.sh --describe --topic test_topic --bootstrap-server localhost:9092
+    ```
 
 ### server.properties
 - `./kafka-server-start.sh` 실행에 필요한 서버 설정 파일.
