@@ -187,3 +187,6 @@ etc. Topic 정보 조회
     ```
 
 9. 7번에 구현했던 Kafka producer로 메세지 전송 시 8번의 consumer 출력값 확인
+
+## 참고사항
+- `advertised.listeners`: 사설 IP 혹은 DDNS 설정, 그리고 포트포워딩 등의 네트워크 제한적 구조에 kafka 서버를 접근해야할 때, `advertised.listeners`로 public ip 주소나 ddns 주소를 명시하여 접근할 수 있게 설정할 수 있다. 이는 `listeners`와 값이 다를 수 있다.
