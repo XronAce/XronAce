@@ -1,6 +1,6 @@
 - 👋 Hi
 - 👀 I’m interested in web development with skills of Server Back-end with Java Springboot Framework.
-- 🌱 I’m currently learning python, Java, C, C++, and Github :D
+- 🌱 I’m currently learning docker, k8s, networks in linux.
 - 📫 Contact me via email: xronace@gmail.com
 
 <!---
